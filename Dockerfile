@@ -7,13 +7,9 @@ FROM python:3.11-slim
 # É uma boa prática para manter a organização.
 WORKDIR /app
 
-# Instalar dependências do sistema se necessário (para oracledb thin não costuma precisar, mas garante compatibilidade)
-#RUN apt-get update && apt-get install -y libaio1 && rm -rf /var/lib/apt/lists/*
-
 # 3. Copiar o arquivo de dependências primeiro para aproveitar o cache de camadas do Docker.
 # Se o requirements.txt não mudar, esta camada não será reconstruída.
 COPY requirements.txt .
-
 # 4. Instalar as dependências do Python.
 # --no-cache-dir: Reduz o tamanho da imagem final ao não armazenar o cache do pip.
 RUN pip install --no-cache-dir -r requirements.txt
