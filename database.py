@@ -3,13 +3,20 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Caminho para o arquivo SQLite (pode ser ajustado conforme necessário)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'escola.db')}"
+import oracledb
+import os
 
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# Configuração da conexão com o Oracle Autonomous Database
+# As credenciais são lidas a partir de variáveis de ambiente
+db_user = os.environ.get("DB_USER")
+db_password = os.environ.get("DB_PASSWORD")
+db_dsn = os.environ.get("DB_DSN")
+
+# String de conexão para o Oracle
+DATABASE_URL = f"oracle+oracledb://{db_user}:{db_password}@{db_dsn}"
+
+
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

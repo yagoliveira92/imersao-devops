@@ -1,8 +1,11 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from database import engine, Base
 from routers.alunos import alunos_router
 from routers.cursos import cursos_router
 from routers.matriculas import matriculas_router
+
+load_dotenv()
 
 
 Base.metadata.create_all(bind=engine)

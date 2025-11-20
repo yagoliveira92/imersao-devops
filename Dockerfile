@@ -1,11 +1,14 @@
 # 1. Usar uma imagem oficial do Python como imagem base.
 # A variante 'slim' oferece um bom equilíbrio entre tamanho e compatibilidade.
 # O readme menciona Python 3.10+, então a versão 3.11 é uma escolha segura e moderna.
-FROM python:3.13.4-alpine3.22
+FROM python:3.11-slim
 
 # 2. Definir o diretório de trabalho dentro do contêiner.
 # É uma boa prática para manter a organização.
 WORKDIR /app
+
+# Instalar dependências do sistema se necessário (para oracledb thin não costuma precisar, mas garante compatibilidade)
+#RUN apt-get update && apt-get install -y libaio1 && rm -rf /var/lib/apt/lists/*
 
 # 3. Copiar o arquivo de dependências primeiro para aproveitar o cache de camadas do Docker.
 # Se o requirements.txt não mudar, esta camada não será reconstruída.
