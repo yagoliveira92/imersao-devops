@@ -1,9 +1,0 @@
-services:
-  api:
-    build: .
-    container_name: api-escola
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-
