@@ -1,24 +1,14 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 import os
+from pymongo import MongoClient
+from dotenv import load_dotenv
 
-# Caminho para o arquivo SQLite (pode ser ajustado conforme necessário)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'escola.db')}"
+load_dotenv()
 
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+MONGODB_URL = os.getenv("MONGODB_URL")
+DATABASE_NAME = os.getenv("DATABASE_NAME", "escola")
 
-Base = declarative_base()
+client = MongoClient(MONGODB_URL)
+db = client[DATABASE_NAME]
 
 def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
+    return db
